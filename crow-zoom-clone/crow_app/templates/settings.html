@@ -225,50 +225,12 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="settings-card">
-                    <h2 class="card-title">Audio & Video Settings</h2>
-                    <div class="form-group">
-                        <label class="form-label">Default Microphone</label>
-                        <select class="form-select">
-                            <option>Default System Microphone</option>
-                            <option>External Microphone</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Default Camera</label>
-                        <select class="form-select">
-                            <option>Default System Camera</option>
-                            <option>External Webcam</option>
-                        </select>
-                    </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
                 </div>
-            </div>
-
-            <!-- Appearance Tab -->
-            <div class="settings-tab" id="appearance-tab">
-                <div class="settings-card">
-                    <h2 class="card-title">Appearance</h2>
-                    <p class="card-subtitle">Choose your preferred theme</p>
-
-                    <div class="appearance-options">
-                        <label class="appearance-option">
-                            <input type="radio" name="theme_choice" value="light" id="theme-light">
-                            <span>Light</span>
-                        </label>
-
-                        <label class="appearance-option">
-                            <input type="radio" name="theme_choice" value="dark" id="theme-dark">
-                            <span>Dark</span>
-                        </label>
-
-                        <label class="appearance-option">
-                            <input type="radio" name="theme_choice" value="system" id="theme-system">
-                            <span>Follow system</span>
-                        </label>
-                    </div>
-
-                    <p class="appearance-note">Your choice is saved in your browser. To sync across devices, sign in and enable server-side sync in your account settings (not implemented).</p>
+            </form>
                 </div>
             </div>
             
@@ -388,47 +350,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-    }
-    
-    // Handle URL hash on load
-    const hash = window.location.hash.substring(1);
-    if (hash && tabTitles[hash]) {
-        const targetTab = document.querySelector(`.nav-item[data-tab="${hash}"]`);
-        if (targetTab) {
-            targetTab.click();
-        }
-    }
-
-    // Appearance tab: wire theme radios to window.crowTheme
-    try {
-        const themeLight = document.getElementById('theme-light');
-        const themeDark = document.getElementById('theme-dark');
-        const themeSystem = document.getElementById('theme-system');
-
-        function initAppearanceControls() {
-            if (!window.crowTheme) return;
-            const stored = window.crowTheme.getStoredTheme();
-            if (stored === 'light') themeLight.checked = true;
-            else if (stored === 'dark') themeDark.checked = true;
-            else themeSystem.checked = true;
-        }
-
-        function handleChange(e) {
-            if (!window.crowTheme) return;
-            const val = e.target.value;
-            window.crowTheme.setTheme(val);
-        }
-
-        [themeLight, themeDark, themeSystem].forEach(el => {
-            if (el) el.addEventListener('change', handleChange);
-        });
-
-        // initialize (delay slightly if crowTheme not yet available)
-        if (window.crowTheme) initAppearanceControls();
-        else setTimeout(initAppearanceControls, 100);
-    } catch (e) {
-        // ignore
-    }
-});
+    })();
 </script>
 {% endblock %}
