@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
   <div class="room-header d-flex justify-content-between align-items-center">
@@ -95,6 +96,21 @@
           </div>
         </div>
       </div>
+      
+      <!-- Video call UI -->
+      <div class="card p-3 mt-3" id="call-card">
+        <h5>Video Call</h5>
+        <div class="d-flex flex-column">
+          <div class="d-flex mb-2" style="gap:10px;">
+            <video id="localVideo" autoplay muted playsinline style="width:48%; background:#000"></video>
+            <video id="remoteVideo" autoplay playsinline style="width:48%; background:#000"></video>
+          </div>
+          <div>
+            <button id="startCallBtn" class="btn btn-success">Join Call</button>
+            <button id="hangupBtn" class="btn btn-danger" disabled>Hang Up</button>
+          </div>
+        </div>
+      </div>
     </div>
   {% endif %}
 
@@ -112,5 +128,7 @@
       }
     }
   </script>
+
+  <script src="{% static 'js/webrtc.js' %}"></script>
 
 {% endblock %}
