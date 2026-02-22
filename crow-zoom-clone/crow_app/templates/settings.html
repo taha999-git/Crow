@@ -235,7 +235,138 @@
             </div>
             
             <!-- Add other tabs similarly -->
+           <!-- Appearance Tab -->
+<div class="settings-tab" id="appearance-tab">
+    <div class="settings-card">
+        <h2 class="card-title">Theme Settings</h2>
+        <p class="card-subtitle">Customize how Crow looks and feels</p>
+        
+        <div class="appearance-section">
+            <div class="form-group">
+                <label class="form-label">
+                    <span class="label-text">Theme Mode</span>
+                    <span class="label-hint">Choose your preferred color scheme</span>
+                </label>
+                <div class="theme-selector">
+                    <div class="theme-option {% if profile.theme_preference == 'light' %}selected{% endif %}" data-value="light">
+                        <div class="theme-preview light-theme">
+                            <div class="preview-header"></div>
+                            <div class="preview-sidebar"></div>
+                            <div class="preview-content"></div>
+                        </div>
+                        <span class="theme-name">Light</span>
+                    </div>
+                    <div class="theme-option {% if profile.theme_preference == 'dark' %}selected{% endif %}" data-value="dark">
+                        <div class="theme-preview dark-theme">
+                            <div class="preview-header"></div>
+                            <div class="preview-sidebar"></div>
+                            <div class="preview-content"></div>
+                        </div>
+                        <span class="theme-name">Dark</span>
+                    </div>
+                    <div class="theme-option {% if profile.theme_preference == 'auto' %}selected{% endif %}" data-value="auto">
+                        <div class="theme-preview auto-theme">
+                            <div class="preview-header"></div>
+                            <div class="preview-sidebar"></div>
+                            <div class="preview-content"></div>
+                        </div>
+                        <span class="theme-name">Auto</span>
+                    </div>
+                </div>
+                <input type="hidden" name="theme_preference" id="theme-preference" value="{{ profile.theme_preference }}">
+            </div>
             
+            <div class="form-group">
+                <label class="form-label">
+                    <span class="label-text">Color Theme</span>
+                    <span class="label-hint">Choose your accent colors</span>
+                </label>
+                <div class="color-theme-selector">
+                    {% for theme in themes_with_colors %}
+                    <div class="color-theme-option {% if profile.color_theme == theme.id %}selected{% endif %}" data-value="{{ theme.id }}">
+                        <div class="color-preview" style="background: {{ theme.color }}"></div>
+                        <span class="theme-name">{{ theme.name }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="color_theme" id="color-theme" value="{{ profile.color_theme }}">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    <span class="label-text">Custom Colors</span>
+                    <span class="label-hint">Pick your own colors (optional)</span>
+                </label>
+                <div class="custom-colors">
+                    <div class="color-picker-group">
+                        <label>Primary Color</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" name="primary_color" id="primary-color" value="{{ profile.primary_color }}" class="color-picker">
+                            <input type="text" id="primary-color-hex" value="{{ profile.primary_color }}" class="color-hex-input">
+                        </div>
+                    </div>
+                    <div class="color-picker-group">
+                        <label>Secondary Color</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" name="secondary_color" id="secondary-color" value="{{ profile.secondary_color }}" class="color-picker">
+                            <input type="text" id="secondary-color-hex" value="{{ profile.secondary_color }}" class="color-hex-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="settings-card">
+        <h2 class="card-title">Interface Preferences</h2>
+        
+        <div class="preferences-grid">
+            <div class="preference-item">
+                <div class="preference-info">
+                    <h4 class="preference-title">Compact Mode</h4>
+                    <p class="preference-desc">Use less spacing between elements</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" name="compact_mode" {% if profile.compact_mode %}checked{% endif %}>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            
+            <div class="preference-item">
+                <div class="preference-info">
+                    <h4 class="preference-title">Animations</h4>
+                    <p class="preference-desc">Enable smooth transitions and animations</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" name="animations_enabled" {% if profile.animations_enabled %}checked{% endif %}>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Font Size</label>
+            <select name="font_size" class="form-select">
+                <option value="small" {% if profile.font_size == 'small' %}selected{% endif %}>Small</option>
+                <option value="medium" {% if profile.font_size == 'medium' %}selected{% endif %}>Medium</option>
+                <option value="large" {% if profile.font_size == 'large' %}selected{% endif %}>Large</option>
+                <option value="x-large" {% if profile.font_size == 'x-large' %}selected{% endif %}>Extra Large</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="settings-card">
+        <h2 class="card-title">Reset to Defaults</h2>
+        <p class="card-subtitle">Restore all appearance settings to factory defaults</p>
+        
+        <div class="reset-section">
+            <p>This will reset all your appearance settings including theme, colors, and preferences.</p>
+            <button type="submit" name="reset_appearance" class="reset-btn">
+                🔄 Reset Appearance Settings
+            </button>
+        </div>
+    </div>
+</div>
             <div class="settings-footer">
                 <button type="submit" class="save-btn primary">
                     💾 Save Changes
@@ -353,3 +484,191 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
 </script>
 {% endblock %}
+// Appearance settings handling
+function initAppearanceSettings() {
+    // Theme selection
+    const themeOptions = document.querySelectorAll('.theme-option');
+    const themeInput = document.getElementById('theme-preference');
+    
+    themeOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const value = this.getAttribute('data-value');
+            themeInput.value = value;
+            
+            // Update UI
+            themeOptions.forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+            
+            // Preview theme change
+            if (window.themeManager) {
+                window.themeManager.setTheme(value);
+            }
+        });
+    });
+    
+    // Color theme selection
+    const colorThemeOptions = document.querySelectorAll('.color-theme-option');
+    const colorThemeInput = document.getElementById('color-theme');
+    
+    colorThemeOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const value = this.getAttribute('data-value');
+            colorThemeInput.value = value;
+            
+            // Update UI
+            colorThemeOptions.forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+            
+            // Preview color theme change
+            if (window.themeManager) {
+                window.themeManager.setColorTheme(value);
+            }
+        });
+    });
+    
+    // Color pickers
+    const primaryColorPicker = document.getElementById('primary-color');
+    const primaryColorHex = document.getElementById('primary-color-hex');
+    const secondaryColorPicker = document.getElementById('secondary-color');
+    const secondaryColorHex = document.getElementById('secondary-color-hex');
+    
+    if (primaryColorPicker && primaryColorHex) {
+        primaryColorPicker.addEventListener('input', function() {
+            primaryColorHex.value = this.value;
+        });
+        
+        primaryColorHex.addEventListener('input', function() {
+            if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                primaryColorPicker.value = this.value;
+            }
+        });
+    }
+    
+    if (secondaryColorPicker && secondaryColorHex) {
+        secondaryColorPicker.addEventListener('input', function() {
+            secondaryColorHex.value = this.value;
+        });
+        
+        secondaryColorHex.addEventListener('input', function() {
+            if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                secondaryColorPicker.value = this.value;
+            }
+        });
+    }
+    
+    // Toggle switches for preview
+    const compactModeToggle = document.querySelector('input[name="compact_mode"]');
+    const animationsToggle = document.querySelector('input[name="animations_enabled"]');
+    const fontSizeSelect = document.querySelector('select[name="font_size"]');
+    
+    if (compactModeToggle && window.themeManager) {
+        compactModeToggle.addEventListener('change', function() {
+            window.themeManager.setCompactMode(this.checked);
+        });
+    }
+    
+    if (animationsToggle && window.themeManager) {
+        animationsToggle.addEventListener('change', function() {
+            window.themeManager.setAnimationsEnabled(this.checked);
+        });
+    }
+    
+    if (fontSizeSelect && window.themeManager) {
+        fontSizeSelect.addEventListener('change', function() {
+            window.themeManager.setFontSize(this.value);
+        });
+    }
+    
+    // Form submission for appearance settings
+    const appearanceForm = document.querySelector('#appearance-tab');
+    if (appearanceForm) {
+        const form = appearanceForm.closest('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                // Save current preview settings to localStorage temporarily
+                // This ensures the theme persists until the page reloads
+                if (window.themeManager) {
+                    const theme = themeInput.value;
+                    const colorTheme = colorThemeInput.value;
+                    
+                    localStorage.setItem('crow_theme', theme);
+                    localStorage.setItem('crow_color_theme', colorTheme);
+                    
+                    if (compactModeToggle) {
+                        localStorage.setItem('crow_compact_mode', compactModeToggle.checked);
+                    }
+                    
+                    if (animationsToggle) {
+                        localStorage.setItem('crow_animations', animationsToggle.checked);
+                    }
+                    
+                    if (fontSizeSelect) {
+                        localStorage.setItem('crow_font_size', fontSizeSelect.value);
+                    }
+                }
+            });
+        }
+    }
+    
+    // Reset appearance button
+    const resetBtn = document.querySelector('button[name="reset_appearance"]');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function(e) {
+            if (confirm('Are you sure you want to reset all appearance settings to defaults?')) {
+                // Reset preview to defaults
+                if (window.themeManager) {
+                    window.themeManager.setTheme('light');
+                    window.themeManager.setColorTheme('blue');
+                    window.themeManager.setCompactMode(false);
+                    window.themeManager.setAnimationsEnabled(true);
+                    window.themeManager.setFontSize('medium');
+                }
+                
+                // Reset form values
+                themeInput.value = 'light';
+                colorThemeInput.value = 'blue';
+                primaryColorPicker.value = '#2563eb';
+                primaryColorHex.value = '#2563eb';
+                secondaryColorPicker.value = '#7c3aed';
+                secondaryColorHex.value = '#7c3aed';
+                
+                // Update UI
+                themeOptions.forEach(opt => {
+                    opt.classList.remove('selected');
+                    if (opt.getAttribute('data-value') === 'light') {
+                        opt.classList.add('selected');
+                    }
+                });
+                
+                colorThemeOptions.forEach(opt => {
+                    opt.classList.remove('selected');
+                    if (opt.getAttribute('data-value') === 'blue') {
+                        opt.classList.add('selected');
+                    }
+                });
+                
+                // Show success message
+                alert('Appearance settings have been reset to defaults. Click "Save Changes" to apply.');
+            }
+        });
+    }
+}
+
+// Initialize when tab is shown
+document.addEventListener('DOMContentLoaded', function() {
+    const appearanceTab = document.getElementById('appearance-tab');
+    if (appearanceTab) {
+        // Initialize when tab becomes active
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    if (appearanceTab.classList.contains('active')) {
+                        initAppearanceSettings();
+                    }
+                }
+            });
+        });
+        
+        observer.observe(appearanceTab, { attributes: true });
+    }
+});

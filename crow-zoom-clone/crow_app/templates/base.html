@@ -5,23 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Crow | Video Conferencing{% endblock %}</title>
-    <!-- Apply theme early to prevent flash -->
-    <script>
-        (function() {
-            try {
-                var saved = localStorage.getItem('crow_theme');
-                if (saved === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                } else if (saved === 'light') {
-                    document.documentElement.removeAttribute('data-theme');
-                } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                }
-            } catch (e) {}
-        })();
-    </script>
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/dark-mode.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
 
     {% block extra_css %}{% endblock %}
 </head>
@@ -45,8 +32,27 @@
                     <a class="nav-link" href="{% url 'manage_classes' %}">Classes</a>
                     <a class="nav-link" href="{% url 'ai_chatbot' %}">AI Assistant</a>
                     <a class="nav-link" href="{% url 'settings' %}">Settings</a>
+                    <a class="nav-link" href="{% url 'session_dashboard' %}">My Sessions</a>
                 </nav>
                 
+                <!-- Dark Mode Toggle -->
+                <button type="button" id="global-dark-mode-toggle" class="global-dark-mode-btn" title="Toggle Dark Mode">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+
                 <!-- Authentication Buttons -->
                 <div class="auth-buttons">
                     {% if user.is_authenticated %}
@@ -63,8 +69,6 @@
                         <a href="{% url 'login' %}" class="btn-signin">Sign In</a>
                         <a href="{% url 'register' %}" class="btn-signup">Sign Up</a>
                     {% endif %}
-                    <!-- Theme toggle (moved to Settings) -->
-                    <!-- button removed from header to keep Appearance setting inside Settings page -->
                 </div>
             </div>
         </div>
@@ -164,64 +168,49 @@
     </div>
 
     <script>
-        // Dark mode: read/save preference and toggle CSS variables
+        // ===== GLOBAL DARK MODE CONTROLLER =====
         (function() {
-            const root = document.documentElement;
+            const body = document.body;
+            const darkModeToggle = document.getElementById('global-dark-mode-toggle');
+            const sunIcon = darkModeToggle?.querySelector('.sun-icon');
+            const moonIcon = darkModeToggle?.querySelector('.moon-icon');
 
-            function applyTheme(theme) {
-                if (theme === 'dark') {
-                    root.setAttribute('data-theme', 'dark');
-                } else {
-                    root.removeAttribute('data-theme');
+            // Initialize dark mode from localStorage
+            function initializeDarkMode() {
+                const isDarkMode = localStorage.getItem('darkMode') === 'true';
+                if (isDarkMode) {
+                    body.classList.add('dark-mode');
+                    updateDarkModeIcon(true);
                 }
             }
 
-            function setTheme(theme) {
-                if (theme !== 'dark' && theme !== 'light' && theme !== 'system') return;
-                if (theme === 'system') {
-                    localStorage.removeItem('crow_theme');
-                    location.reload();
-                    const systemPref = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-                    applyTheme(systemPref);
-                } else {
-                    localStorage.setItem('crow_theme', theme);
-                    applyTheme(theme);
+            // Update icon visibility
+            function updateDarkModeIcon(isDark) {
+                if (sunIcon && moonIcon) {
+                    if (isDark) {
+                        sunIcon.style.display = 'none';
+                        moonIcon.style.display = 'block';
+                    } else {
+                        sunIcon.style.display = 'block';
+                        moonIcon.style.display = 'none';
+                    }
                 }
             }
 
-            function toggleTheme() {
-                const current = localStorage.getItem('crow_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                const next = current === 'dark' ? 'light' : 'dark';
-                setTheme(next);
+            // Toggle dark mode
+            function toggleDarkMode() {
+                const isDarkMode = body.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', isDarkMode);
+                updateDarkModeIcon(isDarkMode);
             }
 
-            function getStoredTheme() {
-                return localStorage.getItem('crow_theme');
+            // Attach event listener
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', toggleDarkMode);
             }
 
-            function getEffectiveTheme() {
-                const stored = getStoredTheme();
-                if (stored === 'dark' || stored === 'light') return stored;
-                return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-            }
-
-            // Initialize immediately (so flash is reduced)
-            try {
-                const saved = getStoredTheme();
-                const initial = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                applyTheme(initial);
-            } catch (e) {
-                // ignore
-            }
-
-            // Expose API so other pages (Settings) can control theme
-            window.crowTheme = {
-                applyTheme,
-                setTheme,
-                toggleTheme,
-                getStoredTheme,
-                getEffectiveTheme
-            };
+            // Initialize on load
+            initializeDarkMode();
         })();
 
         // Mobile menu toggle
