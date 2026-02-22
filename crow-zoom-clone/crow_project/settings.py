@@ -5,7 +5,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "your-django-secret-key-here"
-GEMINI_API_KEY = "AIzaSyB4yqsE1TNHuR4CdhKoEFqgQSBXZqIFBzc"
+GROQ_API_KEY = ""
 
 DEBUG = True
 ALLOWED_HOSTS = []
@@ -35,6 +35,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #crow Middleware
+    'crow_app.middleware.SessionTrackingMiddleware',
+    'crow_app.middleware.ActivityTrackingMiddleware',
 ]
 
 ROOT_URLCONF = 'crow_project.urls'
@@ -90,10 +93,16 @@ LOGOUT_REDIRECT_URL = 'home'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+
+ASGI_APPLICATION = 'crow_project.asgi.application'
 # Channels configuration
+# Configure Channels
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # Changed for Windows compatibility
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
     },
 }
 
