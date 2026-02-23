@@ -16,9 +16,12 @@
     --settings-text-muted-dark: #a0a8b8;
     --settings-hover-dark: #2d3a52;
     
-    --accent-orange: #ff8c42;
-    --accent-orange-light: #ffaa6b;
-    --accent-orange-dark: #e67e34;
+    /* Primary accent (Discord-like blue) */
+    --accent: #5865F2; /* Discord blurple */
+    --accent-light: #7680f8;
+    --accent-dark: #4854dc;
+    /* container padding used for full-bleed calculations */
+    --settings-container-padding: 2.5rem;
 }
 
 body.dark-mode {
@@ -37,6 +40,327 @@ body:not(.dark-mode) {
     --settings-text: var(--settings-text-light);
     --settings-text-muted: var(--settings-text-muted-light);
     --settings-hover: var(--settings-hover-light);
+}
+
+/* ===== LAYOUT: SIDEBAR + MAIN (Discord-like) ===== */
+.settings-container {
+    display: flex;
+    gap: 2rem;
+    padding: var(--settings-container-padding);
+    background: var(--settings-bg);
+    min-height: calc(100vh - 120px);
+}
+
+.settings-sidebar {
+    width: 300px;
+    background: linear-gradient(180deg, #0f1724 0%, #111827 100%);
+    border-radius: 12px;
+        padding: 20px 16px;
+        color: #d1d9ee;
+        box-shadow: 0 10px 30px rgba(2,6,23,0.55);
+    flex-shrink: 0;
+}
+
+/* Make sidebar sticky and collapsible */
+.settings-sidebar {
+    position: sticky;
+    top: 96px; /* below site header */
+    height: calc(100vh - 120px);
+    overflow: auto;
+    transition: width 0.22s ease, padding 0.2s ease;
+}
+
+.settings-sidebar .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.sidebar-collapse-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #cbd5e1;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.12s ease, background 0.12s ease;
+        font-size: 14px;
+}
+
+.sidebar-collapse-btn:hover { transform: translateY(-1px); background: rgba(255,255,255,0.02); }
+
+/* Collapsed state */
+.settings-sidebar.collapsed {
+    width: 88px !important;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.settings-sidebar.collapsed .settings-title { display: none; }
+.settings-sidebar.collapsed .user-info-preview { display: none; }
+.settings-sidebar.collapsed .nav-section-title { display: none; }
+.settings-sidebar.collapsed .nav-item span { display: none; }
+.settings-sidebar.collapsed .nav-item { justify-content: center; padding: 10px 6px; }
+.settings-sidebar.collapsed .nav-item .nav-icon { margin: 0; }
+
+.settings-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.08s;
+}
+
+.nav-item:hover {
+    background: rgba(255,255,255,0.03);
+}
+
+.nav-item.active {
+    background: rgba(88,101,242,0.13);
+    color: white;
+    box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.settings-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Sticky Save button on the right of the settings header */
+.settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    position: relative;
+    padding-bottom: 1.8rem;
+    border-bottom: 1px solid var(--settings-border);
+    margin-bottom: 2.2rem;
+}
+
+.settings-header .header-actions {
+    position: sticky;
+    top: 86px; /* aligns with header */
+    z-index: 40;
+    align-self: center;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.settings-header .header-content {
+    flex: 1;
+}
+
+.page-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--settings-text);
+    margin: 0 0 0.3rem 0;
+    letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+    font-size: 1.05rem;
+    color: var(--settings-text-muted);
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+/* Make sure sticky doesn't overlay content when toggling */
+.settings-main { padding-top: 6px; }
+
+.settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.profile-card {
+    background: var(--settings-card);
+    border: 1px solid var(--settings-border);
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.avatar-circle {
+    width: 128px;
+    height: 128px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 44px;
+    box-shadow: 0 8px 26px rgba(88,101,242,0.18);
+    border: 4px solid rgba(255,255,255,0.04);
+}
+
+/* Slightly smaller avatar for the sidebar */
+.user-avatar-preview { width: 84px; height: 84px; }
+
+/* Tighter spacing and font tuning to match Discord/Zoom feel */
+.card-title { font-size: 1.15rem; font-weight: 700; color: var(--settings-text); }
+.card-subtitle { color: var(--settings-text-muted); margin-top: 6px; }
+.settings-card { padding: 26px; }
+.card-title { font-size: 1.25rem; font-weight: 700; color: var(--settings-text); text-align: center; }
+.card-subtitle { color: var(--settings-text-muted); margin-top: 6px; text-align: center; }
+.settings-card { padding: 30px; border-radius: 12px; }
+.user-avatar-preview { width: 76px; height: 76px; border-radius: 999px; }
+.form-label { font-size: 1rem; }
+.form-input, .form-select, .form-textarea { font-size: 1rem; }
+
+/* Make nav icons slightly larger for clarity */
+.settings-sidebar .nav-icon { width: 22px !important; height: 22px !important; }
+.settings-sidebar .nav-icon { width: 20px !important; height: 20px !important; }
+
+/* Sidebar typography and nav appearance like screenshot */
+.settings-title {
+    font-weight: 800;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #f1f5f9;
+}
+
+.nav-section-title {
+    display: block;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.22);
+    margin: 12px 8px 6px 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.settings-sidebar .nav-item {
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #d6def8;
+}
+
+.settings-sidebar .nav-item:hover {
+    background: rgba(255,255,255,0.02);
+}
+
+.settings-sidebar .nav-item.active {
+    background: var(--accent);
+    color: white;
+    box-shadow: none;
+    border-radius: 10px;
+}
+
+.settings-sidebar .nav-item.active svg { fill: white; color: white; }
+
+/* user status dot */
+.user-status.online {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #9fcf98;
+    font-size: 0.85rem;
+}
+.user-status.online::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #39d353;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(57,211,83,0.06);
+}
+
+/* Avatar container styling (dashed box like screenshot) */
+.avatar-container { display:flex; gap:18px; align-items:center; }
+.avatar-preview { width: 128px; height: 128px; border-radius: 999px; }
+.avatar-upload .avatar-container { border: 1px dashed var(--settings-border); padding: 18px; border-radius: 8px; }
+
+.avatar-meta {
+    flex: 1;
+}
+
+.save-btn.primary {
+    background: var(--accent);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(88,101,242,0.14);
+}
+
+.save-btn.primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Make the generic save button match primary style used in the template */
+.save-btn {
+    background: var(--accent);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+/* Avatar and sidebar user preview */
+.user-preview {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar-preview,
+.default-avatar-large,
+#avatar-preview,
+.avatar-preview img {
+    width: 68px;
+    height: 68px;
+    border-radius: 999px;
+    object-fit: cover;
+    display: inline-block;
+    text-align: center;
+    line-height: 68px;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    box-shadow: 0 8px 20px rgba(2,6,23,0.45);
+}
+
+.user-info-preview .username {
+    display: block;
+    font-weight: 700;
+    color: #e6eef8;
+}
+
+.user-info-preview .user-status {
+    display: block;
+    font-size: 0.85rem;
+    color: #98a8d9;
 }
 
 /* ===== PREFERENCES GRID ===== */
@@ -60,8 +384,8 @@ body:not(.dark-mode) {
 
 .preference-item:hover {
     background: var(--settings-hover);
-    border-left-color: var(--accent-orange);
-    box-shadow: 0 2px 8px rgba(255, 140, 66, 0.15);
+    border-left-color: var(--accent);
+    box-shadow: 0 2px 10px rgba(88,101,242,0.12);
 }
 
 .preference-info {
@@ -121,7 +445,7 @@ body:not(.dark-mode) {
 }
 
 .toggle-switch input:checked + .toggle-slider {
-    background-color: var(--accent-orange);
+    background-color: var(--accent);
 }
 
 .toggle-switch input:checked + .toggle-slider::before {
@@ -129,7 +453,7 @@ body:not(.dark-mode) {
 }
 
 .toggle-switch input:focus + .toggle-slider {
-    box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.2);
+    box-shadow: 0 0 0 3px rgba(88,101,242,0.18);
 }
 
 /* ===== SECURITY OPTIONS ===== */
@@ -197,10 +521,10 @@ body:not(.dark-mode) {
 }
 
 .btn-secondary:hover {
-    background: var(--accent-orange);
+    background: var(--accent);
     color: white;
-    border-color: var(--accent-orange);
-    box-shadow: 0 2px 8px rgba(255, 140, 66, 0.2);
+    border-color: var(--accent);
+    box-shadow: 0 6px 20px rgba(88,101,242,0.12);
 }
 
 .btn-danger {
@@ -290,36 +614,75 @@ body:not(.dark-mode) {
 
 /* ===== DARK MODE TOGGLE BUTTON ===== */
 .dark-mode-btn {
-    background: var(--settings-card);
+    background: rgba(255,255,255,0.05);
     border: 1px solid var(--settings-border);
     color: var(--settings-text);
-    padding: 8px 12px;
-    border-radius: 6px;
+    padding: 10px 14px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 0.9rem;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .dark-mode-btn:hover {
-    background: var(--accent-orange);
-    border-color: var(--accent-orange);
-    color: white;
-    box-shadow: 0 2px 12px rgba(255, 140, 66, 0.3);
-    transform: scale(1.05);
+    background: rgba(255,255,255,0.08);
+    border-color: var(--settings-border);
+    color: var(--settings-text);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    transform: translateY(-1px);
 }
 
 .dark-mode-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.98);
 }
 
 .dark-mode-btn svg {
     stroke: currentColor;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
+}
+
+/* ===== LANGUAGE SWITCHER ===== */
+.language-switcher {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--settings-border);
+    color: var(--settings-text);
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.language-switcher:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: var(--accent);
+    box-shadow: 0 4px 16px rgba(88,101,242,0.12);
+    transform: translateY(-1px);
+}
+
+.language-switcher:active {
+    transform: scale(0.98);
+}
+
+.language-switcher.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    box-shadow: 0 6px 20px rgba(88,101,242,0.16);
 }
 
 /* ===== SETTINGS FOOTER ===== */
@@ -352,60 +715,196 @@ body:not(.dark-mode) {
 }
 
 /* ===== FORMS WITH MODERN LOOK ===== */
-.form-input,
-.form-select,
-.form-textarea {
-    background: var(--settings-bg);
-    border: 1px solid var(--settings-border);
-    padding: 10px 12px;
-    border-radius: 6px;
-    font-size: 0.95rem;
+/* Highly-specific rules for settings forms to override global dark-mode styles */
+.settings-main .settings-card .form-input,
+.settings-main .settings-card .form-select,
+.settings-main .settings-card .form-textarea {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 1rem;
     color: var(--settings-text);
     font-family: inherit;
-    transition: all 0.2s;
+    transition: all 0.18s ease-in-out;
+    width: 100%;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
 }
 
-.form-input::placeholder,
-.form-textarea::placeholder {
+.settings-main .settings-card .form-input::placeholder,
+.settings-main .settings-card .form-textarea::placeholder {
     color: var(--settings-text-muted);
 }
 
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
+.settings-main .settings-card .form-input:focus,
+.settings-main .settings-card .form-select:focus,
+.settings-main .settings-card .form-textarea:focus {
     outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    background: var(--settings-bg);
+    border-color: var(--accent);
+    /* stronger blurple glow + subtle lift */
+    box-shadow: 0 14px 40px rgba(88,101,242,0.16), inset 0 1px 0 rgba(255,255,255,0.02);
+    background: rgba(255,255,255,0.01);
+    transform: translateY(-2px);
 }
 
-.form-input:disabled {
+.settings-main .settings-card .form-input:disabled {
     background: var(--settings-card);
     color: var(--settings-text-muted);
     cursor: not-allowed;
     border-color: var(--settings-border);
 }
 
-.form-label {
+.settings-main .settings-card .form-label {
     display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+    margin-bottom: 0.6rem;
+    font-weight: 700;
     color: var(--settings-text);
-    font-size: 0.95rem;
+    font-size: 1rem;
 }
 
-.form-hint {
+.settings-main .settings-card .form-hint {
     display: block;
-    margin-top: 0.25rem;
-    font-size: 0.85rem;
+    margin-top: 0.35rem;
+    font-size: 0.9rem;
     color: var(--settings-text-muted);
 }
 
-.char-count {
+.settings-main .settings-card .char-count {
     text-align: right;
     font-size: 0.85rem;
     color: var(--settings-text-muted);
     margin-top: 0.5rem;
+}
+
+/* Textarea sizing */
+.settings-main .settings-card .form-textarea { min-height: 140px; resize: vertical; }
+
+/* Card header style: centered title bar like screenshot */
+.settings-card .card-header {
+    width: 100%;
+    background: linear-gradient(90deg, rgba(88,101,242,0.08), rgba(88,101,242,0.04));
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.settings-card .card-header .card-title { margin: 0; }
+
+/* ===== FULL-BLEED CARD HEADER ===== */
+/* Allow certain cards to have a header that stretches to the container edges */
+.settings-card.full-bleed .card-header {
+    margin-left: calc(-1 * var(--settings-container-padding));
+    margin-right: calc(-1 * var(--settings-container-padding));
+    width: calc(100% + (var(--settings-container-padding) * 2));
+    border-radius: 0; /* match edge-to-edge feel */
+    padding-left: calc(var(--settings-container-padding) + 20px);
+    padding-right: calc(var(--settings-container-padding) + 20px);
+}
+
+/* Small visual tweak to separate full-bleed header from card body */
+.settings-card.full-bleed .card-header { box-shadow: none; }
+
+/* ===== INPUT ICONS + FOCUS ANIMATIONS ===== */
+.form-group { position: relative; }
+.form-group::before { display: none; }
+
+.form-group.icon-person::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a0a8b8'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    opacity: 0.95;
+    pointer-events: none;
+}
+
+.form-group.icon-email::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a0a8b8'><path d='M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    opacity: 0.95;
+    pointer-events: none;
+}
+
+.form-group.icon-person .form-input,
+.form-group.icon-person .form-select,
+.form-group.icon-person .form-textarea,
+.form-group.icon-email .form-input,
+.form-group.icon-email .form-select,
+.form-group.icon-email .form-textarea {
+    padding-left: 44px;
+}
+
+/* Additional icons: username and bio */
+.form-group.icon-user::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a0a8b8'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    opacity: 0.95;
+    pointer-events: none;
+}
+
+.form-group.icon-bio::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a0a8b8'><path d='M3 6h18v2H3V6zm0 5h12v2H3v-2zm0 5h12v2H3v-2z'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    opacity: 0.95;
+    pointer-events: none;
+}
+
+.form-group.icon-user .form-input,
+.form-group.icon-user .form-select,
+.form-group.icon-user .form-textarea,
+.form-group.icon-bio .form-input,
+.form-group.icon-bio .form-select,
+.form-group.icon-bio .form-textarea {
+    padding-left: 44px;
+}
+
+.save-btn { 
+    box-shadow: 0 12px 36px rgba(88,101,242,0.18); 
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s ease;
+    font-size: 1rem;
+    padding: 11px 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.save-btn:hover { 
+    transform: translateY(-3px); 
+    box-shadow: 0 20px 50px rgba(88,101,242,0.22); 
+}
+
+.save-btn:active {
+    transform: translateY(-1px);
 }
 
 /* ===== RESPONSIVE ===== */
@@ -518,4 +1017,50 @@ body:not(.dark-mode) {
 .settings-tab.active {
     display: block;
     animation: slideIn 0.3s ease;
+}
+
+/* ===== OVERRIDES TO PROTECT SETTINGS LAYOUT FROM GLOBAL RULES ===== */
+/* Ensure settings area is left-aligned and constrained inside the main container */
+.main-content .container .settings-container,
+.settings-container {
+    text-align: left !important; /* override .main-content center alignment */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Ensure cards and headers are left aligned */
+.settings-main,
+.settings-card,
+.card-header,
+.profile-section,
+.form-grid,
+.preference-item {
+    text-align: left !important;
+}
+
+/* Sidebar icon sizing and layout protection (override global SVG styles) */
+.settings-sidebar .nav-item .nav-icon,
+.settings-sidebar svg,
+.settings-sidebar .nav-item svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    flex: 0 0 20px !important;
+    display: inline-block !important;
+}
+
+/* Make nav item text align and spacing stable */
+.settings-sidebar .nav-item span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* If other CSS set large font-size on SVGs, reset font-size here */
+.settings-sidebar svg { font-size: 0 !important; }
+
+/* Small responsive tweak to ensure sidebar stays visible on narrow screens */
+@media (max-width: 1024px) {
+    .settings-container { padding: 1rem; }
+    .settings-sidebar { width: 220px; }
 }
