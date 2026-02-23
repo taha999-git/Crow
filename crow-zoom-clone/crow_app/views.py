@@ -6,11 +6,14 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.http import JsonResponse
 from django.utils import timezone
+from datetime import timedelta
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import IntegrityError  # FIX: Added missing import
-from django.db.models import Q  # FIX: Added for query filtering
+from django.db.models import Q, Count  # FIX: Added for query filtering
 from .models import ClassMembership, Room, Meeting, Contact, UserClass, UserProfile, MeetingRoom
+from .models import UserSession, MeetingSession, UserActivity, OnlineUser
+from collections import defaultdict
 import json
 import requests
 from django.views.decorators.csrf import csrf_exempt
@@ -591,3 +594,76 @@ def class_detail(request, class_id):
         'meetings': meetings,
     }
     return render(request, 'class_detail.html', context)
+
+
+# ===== SESSION MANAGEMENT VIEWS =====
+@login_required
+def session_dashboard(request):
+    """View for user session analytics and management"""
+    user_sessions = UserSession.objects.filter(user=request.user).order_by('-login_time')[:10]
+    meeting_sessions = MeetingSession.objects.filter(user=request.user).order_by('-joined_at')[:10]
+    
+    # Calculate stats
+    total_login_time = sum([s.duration() for s in user_sessions], timedelta())
+    total_meetings = MeetingSession.objects.filter(user=request.user).count()
+    
+    context = {
+        'user_sessions': user_sessions,
+        'meeting_sessions': meeting_sessions,
+        'total_login_time': total_login_time,
+        'total_meetings': total_meetings,
+    }
+    return render(request, 'session_dashboard.html', context)
+
+
+@login_required
+def terminate_session(request, session_id):
+    """Terminate a user session"""
+    try:
+        session = UserSession.objects.get(id=session_id, user=request.user)
+        session.logout_time = timezone.now()
+        session.is_active = False
+        session.save()
+        messages.success(request, 'Session terminated successfully.')
+    except UserSession.DoesNotExist:
+        messages.error(request, 'Session not found.')
+    
+    return redirect('session_dashboard')
+
+
+@login_required
+def user_analytics(request):
+    """User activity analytics"""
+    activities = UserActivity.objects.filter(user=request.user).order_by('-timestamp')[:20]
+    
+    # Count activities by type
+    activity_stats = UserActivity.objects.filter(user=request.user).values('activity_type').annotate(Count('id'))
+    
+    context = {
+        'activities': activities,
+        'activity_stats': activity_stats,
+    }
+    return render(request, 'user_analytics.html', context)
+
+
+@login_required
+def online_users_api(request):
+    """API endpoint to get currently online users"""
+    online_threshold = timezone.now() - timedelta(minutes=2)
+    online_users = OnlineUser.objects.filter(last_seen__gte=online_threshold).select_related('user')
+    
+    users_data = [
+        {
+            'id': ou.user.id,
+            'username': ou.user.username,
+            'is_in_meeting': ou.is_in_meeting,
+            'current_page': ou.current_page,
+            'last_seen': ou.last_seen.isoformat(),
+        }
+        for ou in online_users
+    ]
+    
+    return JsonResponse({
+        'online_count': len(users_data),
+        'users': users_data
+    })
