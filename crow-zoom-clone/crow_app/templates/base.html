@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as CURRENT_LANG %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,12 +30,12 @@
                 
                 <!-- Navigation -->
                 <nav class="nav" id="mainNav">
-                    <a class="nav-link" href="{% url 'home' %}">Home</a>
-                    <a class="nav-link" href="{% url 'calendar' %}">Schedule</a>
-                    <a class="nav-link" href="{% url 'manage_classes' %}">Classes</a>
-                    <a class="nav-link" href="{% url 'ai_chatbot' %}">AI Assistant</a>
-                    <a class="nav-link" href="{% url 'settings' %}">Settings</a>
-                    <a class="nav-link" href="{% url 'session_dashboard' %}">My Sessions</a>
+                    <a class="nav-link" href="{% url 'home' %}">{% trans "Home" %}</a>
+                    <a class="nav-link" href="{% url 'calendar' %}">{% trans "Schedule" %}</a>
+                    <a class="nav-link" href="{% url 'manage_classes' %}">{% trans "Classes" %}</a>
+                    <a class="nav-link" href="{% url 'ai_chatbot' %}">{% trans "AI Assistant" %}</a>
+                    <a class="nav-link" href="{% url 'settings' %}">{% trans "Settings" %}</a>
+                    <a class="nav-link" href="{% url 'session_dashboard' %}">{% trans "My Sessions" %}</a>
                 </nav>
                 
                 <!-- Dark Mode Toggle -->
@@ -53,7 +55,18 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                     </svg>
                 </button>
-
+                <!-- Language Toggle Button -->
+    <form action="{% url 'set_language' %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    {% if CURRENT_LANG == 'fr' %}
+        <input name="language" type="hidden" value="en">
+        <button type="submit" class="lang-btn">EN</button>
+    {% else %}
+        <input name="language" type="hidden" value="fr">
+        <button type="submit" class="lang-btn">FR</button>
+    {% endif %}
+    <input name="next" type="hidden" value="{{ request.path }}">
+    </form>
                 <!-- Authentication Buttons -->
                 <div class="auth-buttons">
                     {% if user.is_authenticated %}
@@ -64,11 +77,11 @@
                                 </div>
                                 <span class="user-name">{{ user.username|truncatechars:10 }}</span>
                             </a>
-                            <a href="{% url 'logout' %}" class="btn-signout">Sign Out</a>
+                            <a href="{% url 'logout' %}" class="btn-signout">{% trans "Sign Out" %}</a>
                         </div>
                     {% else %}
-                        <a href="{% url 'login' %}" class="btn-signin">Sign In</a>
-                        <a href="{% url 'register' %}" class="btn-signup">Sign Up</a>
+                        <a href="{% url 'login' %}" class="btn-signin">{% trans "Sign In" %}</a>
+                        <a href="{% url 'register' %}" class="btn-signup">{% trans "Sign Up" %}</a>
                     {% endif %}
                 </div>
             </div>
@@ -101,52 +114,52 @@
             <div class="footer-content">
                 <!-- Contact Us -->
                 <div class="footer-section">
-                    <h5>contact us</h5>
+                    <h5>{% trans "contact us" %}</h5>
                     <div class="footer-links">
-                        <a href="mailto:support@crow.com" class="footer-link">support@crow.com</a>
-                        <a href="tel:+15551234567" class="footer-link">+1 (555) 123-4567</a>
-                        <a href="#" class="footer-link">Help Center</a>
+                        <a href="mailto:support@crow.com" class="footer-link">{% trans "support@crow.com" %}</a>
+                        <a href="tel:+15551234567" class="footer-link">{% trans "+1 (555) 123-4567" %}</a>
+                        <a href="#" class="footer-link">{% trans "Help Center" %}</a>
                     </div>
                 </div>
                 
                 <!-- Feedback -->
                 <div class="footer-section">
-                    <h5>feedback</h5>
+                    <h5>{% trans "feedback" %}</h5>
                     <div class="footer-links">
-                        <a href="#" class="footer-link">Submit Feedback</a>
-                        <a href="#" class="footer-link">Feature Requests</a>
-                        <a href="#" class="footer-link">Report Issue</a>
+                        <a href="#" class="footer-link">{% trans "Submit Feedback" %}</a>
+                        <a href="#" class="footer-link">{% trans "Feature Requests" %}</a>
+                        <a href="#" class="footer-link">{% trans "Report Issue" %}</a>
                     </div>
                 </div>
                 
                 <!-- Guide -->
                 <div class="footer-section">
-                    <h5>Guide</h5>
+                    <h5>{% trans "Guide" %}</h5>
                     <div class="footer-links">
-                        <a href="#" class="footer-link">Getting Started</a>
-                        <a href="#" class="footer-link">User Guide</a>
-                        <a href="#" class="footer-link">Tutorials</a>
+                    <a href="#" class="footer-link">{% trans "Getting Started" %}</a>
+                    <a href="#" class="footer-link">{% trans "User Guide" %}</a>
+                    <a href="#" class="footer-link">{% trans "Tutorials" %}</a>
                     </div>
                 </div>
                 
                 <!-- Quick Actions -->
                 <div class="footer-section">
-                    <h5>Quick Actions</h5>
+                    <h5>{% trans "Quick Actions" %}</h5>
                     <div class="footer-links">
                         {% if user.is_authenticated %}
-                            <a href="{% url 'instant_room' %}" class="footer-link">Start Meeting</a>
-                            <a href="{% url 'create_room' %}" class="footer-link">Create Room</a>
-                            <a href="{% url 'manage_classes' %}" class="footer-link">Manage Classes</a>
+                            <a href="{% url 'instant_room' %}" class="footer-link">{% trans "Start Meeting" %}</a>
+                            <a href="{% url 'create_room' %}" class="footer-link">{% trans "Create Room" %}</a>
+                            <a href="{% url 'manage_classes' %}" class="footer-link">{% trans "Manage Classes" %}</a>
                         {% else %}
-                            <a href="{% url 'login' %}" class="footer-link">Sign In</a>
-                            <a href="{% url 'register' %}" class="footer-link">Create Account</a>
+                            <a href="{% url 'login' %}" class="footer-link">{% trans "Sign In" %}</a>
+                            <a href="{% url 'register' %}" class="footer-link">{% trans "Create Account" %}</a>
                         {% endif %}
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <small>© 2025 Crow. Simple video conferencing.</small>
+                <small>{% trans "© 2025 Crow. Simple video conferencing." %}</small>
             </div>
         </div>
     </footer>

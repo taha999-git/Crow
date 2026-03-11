@@ -1,4 +1,6 @@
-from django.urls import path
+from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
 from . import views
 
 urlpatterns = [
@@ -26,13 +28,13 @@ urlpatterns = [
     path('ai-chatbot/', views.ai_chatbot, name='ai_chatbot'),
     path('ai-chat-api/', views.ai_chat_api, name='ai_chat_api'),
     
-    # ===== NEW: CLASS MANAGEMENT URLS =====
+    # Class Management
     path('classes/', views.manage_classes, name='manage_classes'),
     path('classes/create/', views.create_class, name='create_class'),
     path('classes/join/', views.join_class, name='join_class'),
     path('classes/<int:class_id>/', views.class_detail, name='class_detail'),
 
-# Session management
+    # Session management
     path('sessions/', views.session_dashboard, name='session_dashboard'),
     path('sessions/terminate/<int:session_id>/', views.terminate_session, name='terminate_session'),
     path('analytics/', views.user_analytics, name='user_analytics'),
@@ -40,4 +42,9 @@ urlpatterns = [
     # API endpoints
     path('api/online-users/', views.online_users_api, name='online_users_api'),
 
+    # i18n
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

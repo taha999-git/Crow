@@ -8,18 +8,123 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-23 11:11+0000\n"
+"POT-Creation-Date: 2026-03-11 22:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-#: .\crow_app\templates\settings.html:15
+
+#: .\crow_app\templates\base.html:33
+msgid "Home"
+msgstr "Accueil"
+
+#: .\crow_app\templates\base.html:34
+msgid "Schedule"
+msgstr "Calendrier"
+
+#: .\crow_app\templates\base.html:35
+msgid "Classes"
+msgstr "Classes"
+
+#: .\crow_app\templates\base.html:36
+msgid "AI Assistant"
+msgstr "Assistant IA"
+
+#: .\crow_app\templates\base.html:37 .\crow_app\templates\settings.html:15
 msgid "Settings"
 msgstr "Paramètres"
+
+#: .\crow_app\templates\base.html:38
+msgid "My Sessions"
+msgstr "Mes Sessions"
+
+#: .\crow_app\templates\base.html:80
+msgid "Sign Out"
+msgstr "Se déconnecter"
+
+#: .\crow_app\templates\base.html:83 .\crow_app\templates\base.html:154
+msgid "Sign In"
+msgstr "Se connecter"
+
+#: .\crow_app\templates\base.html:84
+msgid "Sign Up"
+msgstr "S'inscrire"
+
+#: .\crow_app\templates\base.html:117
+msgid "contact us"
+msgstr "Contactez-nous"
+
+#: .\crow_app\templates\base.html:119
+msgid "support@crow.com"
+msgstr "support@crow.com"
+
+#: .\crow_app\templates\base.html:120
+msgid "+1 (555) 123-4567"
+msgstr "+1 (555) 123-4567"
+
+#: .\crow_app\templates\base.html:121
+msgid "Help Center"
+msgstr "Centre d'aide"
+
+#: .\crow_app\templates\base.html:127
+msgid "feedback"
+msgstr "Commentaires"
+
+#: .\crow_app\templates\base.html:129
+msgid "Submit Feedback"
+msgstr "Envoyer un commentaire"
+
+#: .\crow_app\templates\base.html:130
+msgid "Feature Requests"
+msgstr "Demandes de fonctionnalités"
+
+#: .\crow_app\templates\base.html:131
+msgid "Report Issue"
+msgstr "Signaler un problème"
+
+#: .\crow_app\templates\base.html:137
+msgid "Guide"
+msgstr "Guide"
+
+#: .\crow_app\templates\base.html:139
+msgid "Getting Started"
+msgstr "Commencer"
+
+#: .\crow_app\templates\base.html:140
+msgid "User Guide"
+msgstr "Guide utilisateur"
+
+#: .\crow_app\templates\base.html:141
+msgid "Tutorials"
+msgstr "Tutoriels"
+
+#: .\crow_app\templates\base.html:147
+msgid "Quick Actions"
+msgstr "Actions rapides"
+
+#: .\crow_app\templates\base.html:150
+msgid "Start Meeting"
+msgstr "Démarrer une réunion"
+
+#: .\crow_app\templates\base.html:151
+msgid "Create Room"
+msgstr "Créer une salle"
+
+#: .\crow_app\templates\base.html:152
+msgid "Manage Classes"
+msgstr "Gérer les classes"
+
+#: .\crow_app\templates\base.html:155
+msgid "Create Account"
+msgstr "Créer un compte"
+
+#: .\crow_app\templates\base.html:162
+msgid "© 2025 Crow. Simple video conferencing."
+msgstr "© 2025 Crow. Vidéoconférence simple."
 
 #: .\crow_app\templates\settings.html:16
 msgid "Collapse sidebar"
@@ -41,7 +146,7 @@ msgstr "Mon compte"
 msgid "Preferences"
 msgstr "Préférences"
 
-#: .\crow_app\templates\settings.html:46 .\crow_app\templates\settings.html:309
+#: .\crow_app\templates\settings.html:46 .\crow_app\templates\settings.html:320
 msgid "Appearance"
 msgstr "Apparence"
 
@@ -69,266 +174,273 @@ msgstr "Abonnement"
 msgid "Advanced"
 msgstr "Avancé"
 
-#: .\crow_app\templates\settings.html:80
-msgid "Back to Home"
-msgstr "Retour à l'accueil"
-
 #: .\crow_app\templates\settings.html:90
 msgid "Manage your account settings and preferences"
 msgstr "Gérez vos paramètres et préférences de compte"
 
-#: .\crow_app\templates\settings.html:117
+#: .\crow_app\templates\settings.html:128
 msgid "Save Changes"
 msgstr "Enregistrer les modifications"
 
-#: .\crow_app\templates\settings.html:130
+#: .\crow_app\templates\settings.html:141
 msgid "Profile"
 msgstr "Profil"
 
-#: .\crow_app\templates\settings.html:131
+#: .\crow_app\templates\settings.html:142
 msgid "Customize how you appear to others"
 msgstr "Personnalisez comment vous apparaissez aux autres"
 
-#: .\crow_app\templates\settings.html:153
+#: .\crow_app\templates\settings.html:164
 msgid "Profile Picture"
 msgstr "Photo de profil"
 
-#: .\crow_app\templates\settings.html:154
+#: .\crow_app\templates\settings.html:165
 msgid "JPG, PNG or GIF • Max 5MB"
 msgstr "JPG, PNG ou GIF • Max 5 Mo"
 
-#: .\crow_app\templates\settings.html:155
+#: .\crow_app\templates\settings.html:166
 msgid "Remove Avatar"
 msgstr "Supprimer l'avatar"
 
-#: .\crow_app\templates\settings.html:164
+#: .\crow_app\templates\settings.html:175
 msgid "Personal Information"
 msgstr "Informations personnelles"
 
-#: .\crow_app\templates\settings.html:169
+#: .\crow_app\templates\settings.html:180
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: .\crow_app\templates\settings.html:171
+#: .\crow_app\templates\settings.html:182
 msgid "This cannot be changed"
 msgstr "Ceci ne peut pas être modifié"
 
-#: .\crow_app\templates\settings.html:175
+#: .\crow_app\templates\settings.html:186
 msgid "First Name"
 msgstr "Prénom"
 
-#: .\crow_app\templates\settings.html:176
+#: .\crow_app\templates\settings.html:187
 msgid "Enter your first name"
 msgstr "Entrez votre prénom"
 
-#: .\crow_app\templates\settings.html:180
+#: .\crow_app\templates\settings.html:191
 msgid "Last Name"
 msgstr "Nom de famille"
 
-#: .\crow_app\templates\settings.html:181
+#: .\crow_app\templates\settings.html:192
 msgid "Enter your last name"
 msgstr "Entrez votre nom de famille"
 
-#: .\crow_app\templates\settings.html:185
+#: .\crow_app\templates\settings.html:196
 msgid "Email Address"
 msgstr "Adresse e-mail"
 
-#: .\crow_app\templates\settings.html:187
+#: .\crow_app\templates\settings.html:198
 msgid "Used for account notifications and password recovery"
-msgstr "Utilisé pour les notifications de compte et la récupération de mot de passe"
+msgstr ""
+"Utilisé pour les notifications de compte et la récupération de mot de passe"
 
-#: .\crow_app\templates\settings.html:191
+#: .\crow_app\templates\settings.html:202
 msgid "About Me"
 msgstr "À propos de moi"
 
-#: .\crow_app\templates\settings.html:192
+#: .\crow_app\templates\settings.html:203
 msgid "Tell others about yourself..."
 msgstr "Parlez de vous aux autres..."
 
-#: .\crow_app\templates\settings.html:201
+#: .\crow_app\templates\settings.html:212
 msgid "Security"
 msgstr "Sécurité"
 
-#: .\crow_app\templates\settings.html:207
+#: .\crow_app\templates\settings.html:218
 msgid "Change Password"
 msgstr "Changer le mot de passe"
 
-#: .\crow_app\templates\settings.html:208
+#: .\crow_app\templates\settings.html:219
 msgid "Update your password regularly to keep your account secure"
-msgstr "Mettez à jour régulièrement votre mot de passe pour sécuriser votre compte"
+msgstr ""
+"Mettez à jour régulièrement votre mot de passe pour sécuriser votre compte"
 
-#: .\crow_app\templates\settings.html:210
+#: .\crow_app\templates\settings.html:221
 msgid "Change"
 msgstr "Modifier"
 
-#: .\crow_app\templates\settings.html:215
+#: .\crow_app\templates\settings.html:226
 msgid "Two-Factor Authentication"
 msgstr "Authentification à deux facteurs"
 
-#: .\crow_app\templates\settings.html:216
+#: .\crow_app\templates\settings.html:227
 msgid "Add an extra layer of security to your account"
 msgstr "Ajouter une couche de sécurité supplémentaire à votre compte"
 
-#: .\crow_app\templates\settings.html:231
+#: .\crow_app\templates\settings.html:242
 msgid "Meeting Preferences"
 msgstr "Préférences de réunion"
 
-#: .\crow_app\templates\settings.html:232
+#: .\crow_app\templates\settings.html:243
 msgid "Customize your default meeting settings"
 msgstr "Personnalisez vos paramètres de réunion par défaut"
 
-#: .\crow_app\templates\settings.html:238
+#: .\crow_app\templates\settings.html:249
 msgid "Join with video"
 msgstr "Rejoindre avec la vidéo"
 
-#: .\crow_app\templates\settings.html:239
+#: .\crow_app\templates\settings.html:250
 msgid "Automatically enable your video when joining meetings"
-msgstr "Activer automatiquement votre vidéo lors de la participation aux réunions"
+msgstr ""
+"Activer automatiquement votre vidéo lors de la participation aux réunions"
 
-#: .\crow_app\templates\settings.html:249
+#: .\crow_app\templates\settings.html:260
 msgid "Mute on join"
 msgstr "Activer la sourdine à la connexion"
 
-#: .\crow_app\templates\settings.html:250
+#: .\crow_app\templates\settings.html:261
 msgid "Automatically mute your microphone when joining meetings"
-msgstr "Mettre automatiquement votre microphone en sourdine lors de la participation aux réunions"
+msgstr ""
+"Mettre automatiquement votre microphone en sourdine lors de la participation "
+"aux réunions"
 
-#: .\crow_app\templates\settings.html:260
+#: .\crow_app\templates\settings.html:271
 msgid "Show meeting controls"
 msgstr "Afficher les contrôles de réunion"
 
-#: .\crow_app\templates\settings.html:261
+#: .\crow_app\templates\settings.html:272
 msgid "Always show meeting controls panel"
 msgstr "Toujours afficher le panneau de contrôle de réunion"
 
-#: .\crow_app\templates\settings.html:271
+#: .\crow_app\templates\settings.html:282
 msgid "Enable noise cancellation"
 msgstr "Activer la suppression du bruit"
 
-#: .\crow_app\templates\settings.html:272
+#: .\crow_app\templates\settings.html:283
 msgid "Reduce background noise automatically"
 msgstr "Réduire automatiquement le bruit de fond"
 
-#: .\crow_app\templates\settings.html:284
+#: .\crow_app\templates\settings.html:295
 msgid "Audio & Video"
 msgstr "Audio et vidéo"
 
-#: .\crow_app\templates\settings.html:288
+#: .\crow_app\templates\settings.html:299
 msgid "Default Microphone"
 msgstr "Microphone par défaut"
 
-#: .\crow_app\templates\settings.html:290
+#: .\crow_app\templates\settings.html:301
 msgid "Default System Microphone"
 msgstr "Microphone système par défaut"
 
-#: .\crow_app\templates\settings.html:291
+#: .\crow_app\templates\settings.html:302
 msgid "External Microphone"
 msgstr "Microphone externe"
 
-#: .\crow_app\templates\settings.html:295
+#: .\crow_app\templates\settings.html:306
 msgid "Default Camera"
 msgstr "Caméra par défaut"
 
-#: .\crow_app\templates\settings.html:297
+#: .\crow_app\templates\settings.html:308
 msgid "Default System Camera"
 msgstr "Caméra système par défaut"
 
-#: .\crow_app\templates\settings.html:298
+#: .\crow_app\templates\settings.html:309
 msgid "External Webcam"
 msgstr "Webcam externe"
 
-#: .\crow_app\templates\settings.html:310
+#: .\crow_app\templates\settings.html:321
 msgid "Customize the look and feel"
 msgstr "Personnalisez l'apparence et la convivialité"
 
-#: .\crow_app\templates\settings.html:318
+#: .\crow_app\templates\settings.html:329
 msgid "Light"
 msgstr "Clair"
 
-#: .\crow_app\templates\settings.html:325
+#: .\crow_app\templates\settings.html:336
 msgid "Dark"
 msgstr "Sombre"
 
-#: .\crow_app\templates\settings.html:332
+#: .\crow_app\templates\settings.html:343
 msgid "Auto"
 msgstr "Automatique"
 
-#: .\crow_app\templates\settings.html:343
+#: .\crow_app\templates\settings.html:354
 msgid "Privacy Settings"
 msgstr "Paramètres de confidentialité"
 
-#: .\crow_app\templates\settings.html:349
+#: .\crow_app\templates\settings.html:360
 msgid "Profile Visibility"
 msgstr "Visibilité du profil"
 
-#: .\crow_app\templates\settings.html:350
+#: .\crow_app\templates\settings.html:361
 msgid "Control who can see your profile"
 msgstr "Contrôlez qui peut voir votre profil"
 
-#: .\crow_app\templates\settings.html:353
+#: .\crow_app\templates\settings.html:364
 msgid "Everyone"
 msgstr "Tous"
 
-#: .\crow_app\templates\settings.html:354
+#: .\crow_app\templates\settings.html:365
 msgid "Friends Only"
 msgstr "Amis uniquement"
 
-#: .\crow_app\templates\settings.html:355
+#: .\crow_app\templates\settings.html:366
 msgid "Private"
 msgstr "Privé"
 
-#: .\crow_app\templates\settings.html:361
+#: .\crow_app\templates\settings.html:372
 msgid "Show Online Status"
 msgstr "Afficher l'état en ligne"
 
-#: .\crow_app\templates\settings.html:362
+#: .\crow_app\templates\settings.html:373
 msgid "Let others know when you're online"
 msgstr "Informez les autres quand vous êtes en ligne"
 
-#: .\crow_app\templates\settings.html:372
+#: .\crow_app\templates\settings.html:383
 msgid "Allow Meeting Invitations"
 msgstr "Autoriser les invitations à des réunions"
 
-#: .\crow_app\templates\settings.html:373
+#: .\crow_app\templates\settings.html:384
 msgid "Allow anyone to invite you to meetings"
 msgstr "Autoriser n'importe qui à vous inviter à des réunions"
 
-#: .\crow_app\templates\settings.html:388
+#: .\crow_app\templates\settings.html:399
 msgid "Notification Preferences"
 msgstr "Préférences de notification"
 
-#: .\crow_app\templates\settings.html:394
+#: .\crow_app\templates\settings.html:405
 msgid "Meeting Invitations"
 msgstr "Invitations aux réunions"
 
-#: .\crow_app\templates\settings.html:395
+#: .\crow_app\templates\settings.html:406
 msgid "Get notified when someone invites you to a meeting"
 msgstr "Recevez une notification quand quelqu'un vous invite à une réunion"
 
-#: .\crow_app\templates\settings.html:405
+#: .\crow_app\templates\settings.html:416
 msgid "Meeting Reminders"
 msgstr "Rappels de réunion"
 
-#: .\crow_app\templates\settings.html:406
+#: .\crow_app\templates\settings.html:417
 msgid "Get reminders before meetings start"
 msgstr "Recevez des rappels avant le début des réunions"
 
-#: .\crow_app\templates\settings.html:416
+#: .\crow_app\templates\settings.html:427
 msgid "Messages"
 msgstr "Messages"
 
-#: .\crow_app\templates\settings.html:417
+#: .\crow_app\templates\settings.html:428
 msgid "Get notified about new messages"
 msgstr "Recevez des notifications sur les nouveaux messages"
 
-#: .\crow_app\templates\settings.html:435
+#: .\crow_app\templates\settings.html:446
 msgid "Save All Changes"
 msgstr "Enregistrer toutes les modifications"
 
-#: .\crow_app\templates\settings.html:438
+#: .\crow_app\templates\settings.html:449
 msgid "Cancel"
 msgstr "Annuler"
 
-#: .\crow_app\templates\settings.html:441
+#: .\crow_app\templates\settings.html:452
 msgid "Delete Account"
 msgstr "Supprimer le compte"
+
+msgid "let the drawing explain."
+msgstr "Laissez le dessin expliquer."
+
+msgid "Simple, reliable video meetings for everyone."
+msgstr "Des réunions vidéo simples et fiables pour tous."

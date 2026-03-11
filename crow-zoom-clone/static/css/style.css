@@ -689,3 +689,30 @@ body {
 
 .rounded { border-radius: var(--radius-md); }
 .rounded-lg { border-radius: var(--radius-lg); }
+/* Language Toggle Button */
+.lang-btn {
+    background: transparent;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 8px;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.lang-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: #888;
+}
+
+/* Dark mode support */
+body.dark-mode .lang-btn {
+    border-color: #555;
+    color: #fff;
+}
+
+body.dark-mode .lang-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}

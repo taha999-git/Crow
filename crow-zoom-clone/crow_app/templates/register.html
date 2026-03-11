@@ -6,29 +6,51 @@
 <div class="auth-container">
     <div class="auth-card">
         <h2 class="auth-title">Create Your Account</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
         
         <form method="post" class="auth-form">
             {% csrf_token %}
             
             <div class="form-group">
                 <label class="form-label">Username</label>
-                <input type="text" name="username" class="form-control" required>
+                <input type="text" name="username" value="{{ form.username.value|default:'' }}" class="form-control {% if form.username.errors %}is-invalid{% endif %}" required>
+                {% for error in form.username.errors %}
+                    <span class="error-text" style="color:red; font-size:0.85rem;">{{ error }}</span>
+                {% endfor %}
             </div>
             
             <div class="form-group">
                 <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" required>
+                <input type="email" name="email" value="{{ form.email.value|default:'' }}" class="form-control" required>
             </div>
             
             <div class="form-group">
                 <label class="form-label">Password</label>
-                <input type="password" name="password1" class="form-control" required>
+                <input type="password" name="password1" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" required>
+                {% for error in form.password1.errors %}
+                    <span class="error-text" style="color:red; font-size:0.85rem;">{{ error }}</span>
+                {% endfor %}
             </div>
             
             <div class="form-group">
                 <label class="form-label">Confirm Password</label>
-                <input type="password" name="password2" class="form-control" required>
+                <input type="password" name="password2" class="form-control {% if form.password2.errors %}is-invalid{% endif %}" required>
+                {% for error in form.password2.errors %}
+                    <span class="error-text" style="color:red; font-size:0.85rem;">{{ error }}</span>
+                {% endfor %}
             </div>
+
+            {# Non-field errors (e.g. passwords don't match) #}
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p style="color:red;">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
             
             <button type="submit" class="btn btn-primary auth-submit">Create Account</button>
         </form>

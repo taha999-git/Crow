@@ -260,3 +260,10 @@ def home(request):
 - https://docs.djangoproject.com/en/4.2/ref/django-admin/#makemessages
 
 Good luck with your translations! 🌍
+
+---
+
+Latest commits:
+- f0a4d46 "docs: Add translation status report and summary"
+- 6c8ca8c "docs: Add comprehensive language switcher testing guide"
+- 7b16fab "feat: Complete French translation implementation with language switcher"

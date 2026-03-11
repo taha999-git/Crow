@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.http import JsonResponse
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from datetime import timedelta
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -169,17 +170,16 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            
-            # Create user profile
             UserProfile.objects.create(user=user)
-            
             login(request, user)
             messages.success(request, 'Account created successfully!')
             return redirect('home')
+        else:
+            # Temporary debug - check your terminal
+            print("FORM ERRORS:", form.errors)
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
-
 def logout_view(request):
     """Log out the user"""
     auth_logout(request)
